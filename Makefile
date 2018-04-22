@@ -18,6 +18,7 @@ clean:
 
 pack:
 	GOOS=linux make build
+	ls
 	docker build -t gcr.io/project-tilas/api-gateway:$(TAG) .
 
 serve: pack
