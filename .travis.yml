@@ -34,7 +34,6 @@ install:
   - docker-credential-gcr configure-docker
   - kubectl config view
   - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-  - make install
 
 script:
   - make ship
