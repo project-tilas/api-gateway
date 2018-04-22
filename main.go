@@ -24,7 +24,7 @@ func init() {
 	fmt.Println("Running API_GATEWAY version: " + version)
 	addr = os.Getenv("API_GATEWAY_ADDR")
 	if addr == "" {
-		addr = ":8081"
+		addr = ":8080"
 	}
 
 }
