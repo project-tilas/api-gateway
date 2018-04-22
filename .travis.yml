@@ -1,0 +1,40 @@
+language: go
+sudo: required
+
+go:
+  - "1.10.1"
+
+services:
+  - docker
+
+cache:
+  directories:
+    - "$HOME/google-cloud-sdk/"
+
+env:
+  global:
+    - GOOGLE_APPLICATION_CREDENTIALS=~/gcloud-service-key.json
+    - PROJECT_ID=project-tilas
+    - CLUSTER_NAME=api
+    - COMPUTE_ZONE=europe-west1-b
+
+install:
+  - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
+  - source /home/travis/google-cloud-sdk/path.bash.inc
+  - gcloud --quiet version
+  - gcloud --quiet components update
+  - gcloud --quiet components update kubectl
+  - gcloud --quiet components update docker-credential-gcr
+  - echo $GCLOUD_SERVICE_KEY_STG | base64 --decode -i > $HOME/gcloud-service-key.json
+  - gcloud auth activate-service-account --key-file $HOME/gcloud-service-key.json
+  - gcloud --quiet config set project $PROJECT_ID
+  - gcloud --quiet config set container/cluster $CLUSTER_NAME
+  - gcloud --quiet config set compute/zone ${COMPUTE_ZONE}
+  - gcloud --quiet container clusters get-credentials $CLUSTER_NAME
+  - docker-credential-gcr configure-docker
+  - kubectl config view
+  - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+  - make install
+
+script:
+  - make ship

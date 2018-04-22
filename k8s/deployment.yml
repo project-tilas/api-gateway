@@ -1,0 +1,26 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: api-gateway
+  labels: 
+    app: api-gateway
+spec:
+  replicas: 1
+  template:
+    metadata: 
+      labels: 
+        app: api-gateway
+    spec:
+      containers:
+      - name: api-gateway
+        image: gcr.io/project-tilas/api-gateway:${TAG}
+        command:
+        ports:
+          - containerPort: 8080
+        volumeMounts:
+          - name: api-gateway-config
+            mountPath: /etc/api-gateway/
+            readOnly: true
+      volumes:
+        - name: api-gateway-config
+          configMap: { name: api-gateway-config }
