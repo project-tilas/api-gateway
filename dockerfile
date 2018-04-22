@@ -4,4 +4,4 @@ EXPOSE 8080
 
 ADD api-gateway /bin/api-gateway
 
-ENTRYPOINT "/bin/api-gateway"
+CMD "api-gateway"
