@@ -17,7 +17,7 @@ clean:
 	rm ./api-gateway
 
 pack:
-	GOOS=linux GOARCH=amd64 make build
+	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 make build
 	docker build -t gcr.io/project-tilas/api-gateway:$(TAG) .
 
 serve: pack
