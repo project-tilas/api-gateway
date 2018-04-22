@@ -28,11 +28,11 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: api-gateway-service
+  name: api-gateway
 spec:
   type: LoadBalancer
   selector:
-    app: api-gateway-service
+    app: api-gateway
   ports:
   - protocol: TCP
     port: 80
