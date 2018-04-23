@@ -10,7 +10,7 @@ install:
 test:
 	go test ./...
 
-build: install
+build:
 	go build -ldflags "-X main.version=$(TAG)" -o api-gateway .
 
 clean:
@@ -20,7 +20,10 @@ pack:
 	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 make build
 	docker build -t gcr.io/project-tilas/api-gateway:$(TAG) .
 
-serve: pack
+serve: build
+	./api-gateway
+
+serve-container: pack
 	docker run -d -it -p 8080:8080 --name=api-gateway gcr.io/project-tilas/api-gateway:$(TAG)
 
 upload:
