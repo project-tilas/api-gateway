@@ -68,7 +68,7 @@ func main() {
 func testService(serviceName string) (health, error) {
 	url := "http://" + serviceName + "/health"
 
-	spaceClient := http.Client{
+	httpClient := http.Client{
 		Timeout: time.Second * 2, // Maximum of 2 secs
 	}
 
@@ -77,9 +77,7 @@ func testService(serviceName string) (health, error) {
 		return health{}, err
 	}
 
-	req.Header.Set("User-Agent", "spacecount-tutorial")
-
-	res, getErr := spaceClient.Do(req)
+	res, getErr := httpClient.Do(req)
 	if getErr != nil {
 		return health{}, getErr
 	}
