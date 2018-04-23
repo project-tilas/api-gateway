@@ -28,11 +28,11 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: api-gateway
+  name: svc-tils
 spec:
   type: LoadBalancer
   selector:
-    app: api-gateway
+    app: svc-tils
   ports:
   - protocol: TCP
     port: 80
