@@ -46,12 +46,21 @@ func main() {
 	// Route => handler
 	e.GET("/health", func(c echo.Context) error {
 		services := []health{}
+
 		svcTilsHealth, svcTilsErr := testService("svc-tils")
 		if svcTilsErr != nil {
 			log.Error(svcTilsErr)
 		} else {
 			services = append(services, svcTilsHealth)
 		}
+
+		svcAuthHealth, svcAuthErr := testService("svc-auth")
+		if svcAuthErr != nil {
+			log.Error(svcAuthErr)
+		} else {
+			services = append(services, svcAuthHealth)
+		}
+
 		u := health{
 			Alive:       true,
 			ServiceName: "api-gateway",
