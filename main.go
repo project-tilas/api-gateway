@@ -20,19 +20,21 @@ type (
 		Alive       bool     `json:"alive"`
 		Version     string   `json:"version"`
 		Services    []health `json:"services"`
+		PodName     string   `json:"podName"`
+		NodeName    string   `json:"nodeName"`
 	}
 )
 
 var version string
 var addr string
+var podName string
+var nodeName string
 
 func init() {
 	fmt.Println("Running API_GATEWAY version: " + version)
-	addr = os.Getenv("API_GATEWAY_ADDR")
-	if addr == "" {
-		addr = ":8080"
-	}
-
+	addr = getEnvVar("API_GATEWAY_ADDR", ":8080")
+	nodeName = getEnvVar("SVC_AUTH_NODE_NAME", "N/A")
+	podName = getEnvVar("SVC_AUTH_POD_NAME", "N/A")
 }
 
 func main() {
@@ -66,6 +68,8 @@ func main() {
 			ServiceName: "api-gateway",
 			Version:     version,
 			Services:    services,
+			PodName:     podName,
+			NodeName:    nodeName,
 		}
 		return c.JSON(http.StatusOK, u)
 	})
@@ -102,4 +106,12 @@ func testService(serviceName string) (health, error) {
 		return health{}, jsonErr
 	}
 	return healthResp, nil
+}
+
+func getEnvVar(env string, fallback string) string {
+	e := os.Getenv(env)
+	if e == "" {
+		return fallback
+	}
+	return e
 }
