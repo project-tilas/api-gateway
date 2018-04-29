@@ -19,9 +19,10 @@ type (
 		ServiceName string   `json:"serviceName"`
 		Alive       bool     `json:"alive"`
 		Version     string   `json:"version"`
-		Services    []health `json:"services"`
+		Services    []health `json:"services,omitempty"`
 		PodName     string   `json:"podName"`
 		NodeName    string   `json:"nodeName"`
+		Hits        int      `json:"hits,omitempty"`
 	}
 )
 
@@ -29,6 +30,7 @@ var version string
 var addr string
 var podName string
 var nodeName string
+var hits int
 
 func init() {
 	fmt.Println("Running API_GATEWAY version: " + version)
@@ -47,6 +49,7 @@ func main() {
 
 	// Route => handler
 	e.GET("/health", func(c echo.Context) error {
+		hits++
 		services := []health{}
 
 		svcTilsHealth, svcTilsErr := testService("svc-tils")
@@ -70,6 +73,7 @@ func main() {
 			Services:    services,
 			PodName:     podName,
 			NodeName:    nodeName,
+			Hits:        hits,
 		}
 		return c.JSON(http.StatusOK, u)
 	})
