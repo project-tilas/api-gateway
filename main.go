@@ -33,8 +33,8 @@ var nodeName string
 func init() {
 	fmt.Println("Running API_GATEWAY version: " + version)
 	addr = getEnvVar("API_GATEWAY_ADDR", ":8080")
-	nodeName = getEnvVar("SVC_AUTH_NODE_NAME", "N/A")
-	podName = getEnvVar("SVC_AUTH_POD_NAME", "N/A")
+	nodeName = getEnvVar("API_GATEWAY_NODE_NAME", "N/A")
+	podName = getEnvVar("API_GATEWAY_POD_NAME", "N/A")
 }
 
 func main() {
