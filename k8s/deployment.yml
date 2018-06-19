@@ -16,7 +16,8 @@ spec:
         image: gcr.io/project-tilas/api-gateway:${TAG}
         command:
         ports:
-          - containerPort: 8080
+          - name: api-gateway-port
+            containerPort: 8080
         volumeMounts:
           - name: api-gateway-config
             mountPath: /etc/api-gateway/
@@ -44,6 +45,6 @@ spec:
     app: api-gateway
   ports:
   - protocol: TCP
-    port: 8080
-    targetPort: 8080
+    port: 80
+    targetPort: api-gateway-port
     nodePort: 30000
