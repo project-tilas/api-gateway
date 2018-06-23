@@ -40,9 +40,11 @@ apiVersion: v1
 metadata:
   name: api-gateway
 spec:
+  kind: NodePort
   selector:
     app: api-gateway
   ports:
   - protocol: TCP
     port: 80
+    nodePort: 30001
     targetPort: api-port
