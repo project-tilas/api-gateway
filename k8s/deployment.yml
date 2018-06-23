@@ -44,7 +44,9 @@ spec:
   selector:
     app: api-gateway
   ports:
-  - protocol: TCP
-    port: 80
-    nodePort: 30001
-    targetPort: api-port
+    - port: 80
+      nodePort: 30080
+      targetPort: api-port
+    - port: 443
+      nodePort: 30443
+      name: https
